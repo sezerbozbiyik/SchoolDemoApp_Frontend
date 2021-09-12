@@ -1,0 +1,87 @@
+<div class="mb-3">
+  <label for="filterStudentText" class="form-label"></label>
+  <input
+    type="text"
+    [(ngModel)]="filterText"
+    class="form-control"
+    id="filterStudentText"
+    placeholder="Arama ifadesi giriniz..."
+  />
+</div>
+
+<div class="alert alert-dark" *ngIf="filterText">
+  {{ filterText }} Araması yaptınız.
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Ad Soyad</th>
+      <th scope="col">Email</th>
+      <th scope="col">Öğrenci No:</th>
+      <th scope="col">Tel No:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let student of students | filterPipe: filterText"
+      (click)="setCurrentStudent(student)"
+      data-bs-toggle="modal"
+      data-bs-target="#studentModal"
+    >
+      <th>{{ student.id }}</th>
+      <td>{{ student.fullName }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.number }}</td>
+      <td>{{ student.gsmNumber }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="studentModal"
+  tabindex="-1"
+  aria-labelledby="studentModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentModalLabel" *ngIf="currentStudent">
+          {{ currentStudent.fullName | uppercase }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="md-3">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Tamamlanan Kurslar</th>
+                <th>Ortalama Puan</th>
+              </tr>
+
+              <tr *ngFor="let exam of exams">
+                <td>{{exam.courseName}}</td>
+                <td>{{exam.score}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<table class="table table-success table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Öğrenci Ad Soyad</th>
+      <th scope="col">Kurs Adı</th>
+      <th scope="col">Puan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exam of examResults">
+      <th scope="row">{{ exam.examId }}</th>
+      <td>{{ exam.studentName }}</td>
+      <td>{{ exam.courseName }}</td>
+      <td>{{ exam.score }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-grid col-6 mx-auto">
+  <button
+    class="btn btn-primary"
+    type="button"
+    data-bs-toggle="modal"
+    data-bs-target="#examResultModal"
+  >
+    Ekle
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="examResultModal"
+  tabindex="-1"
+  aria-labelledby="examResultModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="examResultModalLabel">
+          Yeni Sınav Sonucu Ekleme
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form [formGroup]="addExamResultForm">
+          <select class="form-select mb-3" aria-label="Öğrenci Name" formControlName="studentId">
+            <option [ngValue]="null" disabled>Öğrenci Seçiniz</option>
+            <option
+              
+              *ngFor="let student of students"
+              [value]="student.id"
+            >
+              {{ student.fullName }}
+            </option>
+          </select>
+          <select class="form-select" aria-label="Kurs Name" formControlName="courseId">
+            <option [ngValue]="null" disabled>Kurs Seçiniz</option>
+            <option
+              *ngFor="let course of courses"
+              [value]="course.id"
+            >
+              {{ course.name }}
+            </option>
+          </select>
+          
+            <label for="examScore"></label>
+            <input
+              class="form-control"
+              type="number"
+              name="score"
+              id="examScore"
+              formControlName="score"
+            />
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success d-grid col-3" (click)="add()">Ekle</button>
+      </div>
+    </div>
+  </div>
+</div>
